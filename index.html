@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+	<head>
+		<script>
+			var app = {
+				canvas: {},
+				init: function(){
+					app.canvas = document.getElementById("game").getContext('2d');
+					app.canvas.mozImageSmoothingEnabled = false;
+					app.canvas.msImageSmoothingEnabled = false;
+					app.canvas.imageSmoothingEnabled = false;
+					app.loop();
+				},
+				loop: function(){
+					requestAnimationFrame(app.loop);
+					// Drawing code goes here
+					app.drawbg('bg.png');
+					app.drawsprites();
+					app.resize();
+				},
+				resize: function(){
+					var upscaledCanvas = document.getElementById('resized').getContext('2d');
+					upscaledCanvas.mozImageSmoothingEnabled = false;
+					upscaledCanvas.webkitImageSmoothingEnabled = false;
+					upscaledCanvas.msImageSmoothingEnabled = false;
+					upscaledCanvas.imageSmoothingEnabled = false;
+					upscaledCanvas.drawImage(app.canvas.canvas, 0, 0, 160, 160, 0, 0, 800, 800);
+				},
+				drawbg: function(src){
+					var img = new Image();
+					img.src = src;
+					app.canvas.drawImage(img,0,0);
+				},
+				drawsprites: function(){
+					var walkimg = new Image();
+					walkimg.src = "walk.png";
+					app.walkframe+=0.31;
+					app.time++;
+					if(app.walkframe > 24) {
+						app.walkframe = 0;
+					}
+					if(app.time > 420) {
+						app.time = 0;
+						app.walkframe = 0;
+					}
+					//app.canvas.font = "12px serif";
+					//app.canvas.fillText(Math.floor(app.time), 20, 20);
+					app.canvas.drawImage(walkimg, Math.floor(app.walkframe)*80, 0, sw=80, sh=60, (app.time-120)/2.05, 30, 80, 60)
+				},
+				walkframe: 0,
+				time: 0
+			};
+
+		</script>
+		<style>
+
+			body{
+				padding: 0;
+				margin: 0;
+				background: #000;
+
+				font-size: 100%;
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			canvas {
+				margin: 1em auto;
+				display: block;
+				image-rendering: optimizeSpeed;
+				image-rendering: -moz-crisp-edges;
+				image-rendering: -webkit-optimize-contrast;
+				image-rendering: optimize-contrast;
+				-ms-interpolation-mode: nearest-neighbor;
+			}
+		</style>
+	</head>
+	<body onload="app.init();">
+		<canvas id="game" height="100" width="160"></canvas>
+		<canvas id="resized" height="500" width="800"></canvas>
+	</body>
+</html>
