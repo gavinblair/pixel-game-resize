@@ -2,7 +2,8 @@ var app = {
 	time: 0,
 	canvas: {},
 	camera: {
-		
+		x: 0,
+		y: 0
 	},
 	init: function(){
 		app.canvas = document.getElementById("game").getContext('2d');
@@ -43,6 +44,22 @@ var app = {
 					state.width,
 					state.height
 				);
+				if(sprite.follow) {
+					app.camera.x = sprite.x - cartridge.settings.camwidth / 4;
+					app.camera.y = sprite.y - cartridge.settings.camheight / 4;
+					if (app.camera.x < 0) {
+						app.camera.x = 0;
+					}
+					if (app.camera.x > cartridge.settings.sourcewidth - cartridge.settings.camwidth) {
+						app.camera.x = cartridge.settings.sourcewidth - cartridge.settings.camwidth;
+					}
+					if (app.camera.y < 0) {
+						app.camera.y = 0;
+					}
+					if (app.camera.y > cartridge.settings.sourceheight - cartridge.settings.camheight) {
+						app.camera.y = cartridge.settings.sourceheight - cartridge.settings.camheight;
+					}
+				}
 			}
 		}
 		//draw the big version
@@ -54,6 +71,6 @@ var app = {
 		upscaledCanvas.webkitImageSmoothingEnabled = false;
 		upscaledCanvas.msImageSmoothingEnabled = false;
 		upscaledCanvas.imageSmoothingEnabled = false;
-		upscaledCanvas.drawImage(app.canvas.canvas, 0, 0, cartridge.settings.sourcewidth, cartridge.settings.sourceheight, 0, 0, cartridge.settings.destwidth, cartridge.settings.destheight);
+		upscaledCanvas.drawImage(app.canvas.canvas, app.camera.x, app.camera.y, cartridge.settings.camwidth, cartridge.settings.camheight, 0, 0, cartridge.settings.destwidth, cartridge.settings.destheight);
 	}
 };

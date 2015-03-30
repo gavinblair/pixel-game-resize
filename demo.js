@@ -1,7 +1,9 @@
 var cartridge = {
 	settings: {
-		sourcewidth: 160,
+		sourcewidth: 500,
 		sourceheight: 100,
+		camwidth: 160,
+		camheight: 100,
 		destwidth: 800,
 		destheight: 500
 	},
@@ -23,9 +25,9 @@ var cartridge = {
 				var state = ruffles.states[ruffles.state];
 				ruffles.x += state.speed;
 				cartridge.scenes.first.timer++;
-				var timeonscreen = 515
+				var timeonscreen = 1000;
 				if(ruffles.state == 'running') {
-					timeonscreen = 240;
+					timeonscreen = 360;
 				}
 				if(cartridge.scenes.first.timer > timeonscreen) {
 					cartridge.scenes.first.timer = 0;
@@ -46,6 +48,7 @@ var cartridge = {
 			visible: false,
 			x: 0,
 			y: 0,
+			follow: true,
 			states: {
 				walking: {
 					image: 'walk.png',
