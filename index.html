@@ -1,85 +1,8 @@
 <!doctype html>
 <html>
 	<head>
-		<script>
-			var app = {
-				canvas: {},
-				init: function(){
-					app.canvas = document.getElementById("game").getContext('2d');
-					app.canvas.mozImageSmoothingEnabled = false;
-					app.canvas.msImageSmoothingEnabled = false;
-					app.canvas.imageSmoothingEnabled = false;
-					app.loop();
-				},
-				loop: function(){
-					requestAnimationFrame(app.loop);
-					// Drawing code goes here
-					app.drawbg('bg.png');
-					app.drawsprites();
-					app.resize();
-				},
-				resize: function(){
-					var upscaledCanvas = document.getElementById('resized').getContext('2d');
-					upscaledCanvas.mozImageSmoothingEnabled = false;
-					upscaledCanvas.webkitImageSmoothingEnabled = false;
-					upscaledCanvas.msImageSmoothingEnabled = false;
-					upscaledCanvas.imageSmoothingEnabled = false;
-					upscaledCanvas.drawImage(app.canvas.canvas, 0, 0, 160, 100, 0, 0, 800, 500);
-				},
-				drawbg: function(src){
-					var img = new Image();
-					img.src = src;
-					app.canvas.drawImage(img,0,0);
-				},
-				drawsprites: function(){
-					var ruffles = new Image();
-					app.time++;
-					var spritewidth;
-					var spriteheight;
-					var numframes;
-					var spriterate;
-					var spritespeed;
-					var timeonscreen;
-					if(app.state == 'walking') {
-						spritewidth = 80;
-						spriteheight = 60;
-						ruffles.src = 'walk.png';
-						numframes = 24;
-						spriterate = 0.31;
-						spritespeed = 2.05;
-						timeonscreen = 415;
-					} else {
-						spritewidth = 48;
-						spriteheight = 57;
-						ruffles.src = 'run.png';
-						numframes = 12;
-						spriterate = 0.35;
-						spritespeed = 0.75;
-						timeonscreen = 240;
-					}
-					app.frame+=spriterate;
-					if(app.frame > numframes) {
-						app.frame = 0;
-					}
-					if(app.time > timeonscreen) {
-						app.time = 0;
-						app.frame = 0;
-						if(app.state == 'walking') {
-							app.state = 'running';
-						} else {
-							app.state = 'walking';
-						}
-					}
-					//app.canvas.font = "12px serif";
-					//app.canvas.fillText(Math.floor(app.time), 20, 20);
-					app.canvas.drawImage(ruffles, Math.floor(app.frame)*spritewidth, 0, spritewidth, spriteheight, (app.time-120)/spritespeed, 30, spritewidth, spriteheight)
-				},
-				frame: 0,
-				time: 0,
-				state: 'running'
-			};
-
-		</script>
+		<script src='paca.js'></script>
+		<script src='demo.js'></script>
 		<style>
 
 			body{
