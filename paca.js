@@ -16,6 +16,12 @@ var app = {
 			// Hide the address bar!
 			window.scrollTo(0, 1);
 		}, 0);
+
+		//fastclick
+		document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+    
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
 		app.height = $(window).height();
