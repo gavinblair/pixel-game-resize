@@ -4,12 +4,19 @@ cartridge.sprites = {
 		visible: false,
 		x: 0,
 		y: 0,
+		direction: 'right',
+		destination: {
+			x: 0,
+			y: 0
+		},
 		follow: true,
 		states: {
 			walking: {
 				image: 'walk.png',
+				reverse: 'walk_left.png',
 				width: 80,
 				height: 60,
+				visiblewidth: 50,
 				frames: 24,
 				rate: 0.41,
 				speed: .65,
