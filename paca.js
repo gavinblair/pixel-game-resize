@@ -18,10 +18,8 @@ var app = {
 		}, 0);
 
 		//fastclick
-		document.addEventListener('DOMContentLoaded', function() {
-        FastClick.attach(document.body);
-    }, false);
-    
+    FastClick.attach(document.body);
+
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
 		app.height = $(window).height();
