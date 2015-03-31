@@ -12,6 +12,10 @@ var app = {
 		if (window.addEventListener) {
 			window.addEventListener('DOMMouseScroll', function(e){e.preventDefault(); return false;}, false);
 		}
+		setTimeout(function(){
+			// Hide the address bar!
+			window.scrollTo(0, 1);
+		}, 0);
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
 		app.height = $(window).height();
