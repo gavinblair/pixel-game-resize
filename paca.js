@@ -113,13 +113,8 @@ var paca = {
 			}
 		});
 		$('#resized').on('touchmove mousemove', function(e){
-			//convert e.clientX
-			var heightratio = $('#resized').height() / cartridge.settings.camheight;
-			//convert e.clientY
-			var widthratio = $('#resized').width() / cartridge.settings.camwidth;
-
-			paca.cursor.x = Math.floor(e.clientX / widthratio + paca.camera.x);
-			paca.cursor.y = Math.floor(e.clientY / heightratio + paca.camera.y);
+			paca.cursor.x = e.clientX;
+			paca.cursor.y = e.clientY;
 		});
 	},
 	loop: function(){
@@ -196,16 +191,12 @@ var paca = {
 					state.width,
 					state.height
 				);
+				if(sprite.destination.x != -1) {
+					paca.canvas.fillStyle = "white";
+					var size = 6
+					paca.canvas.fillRect(Math.floor(sprite.destination.x-size/2), Math.floor(sprite.destination.y-size/2), size, size);
+				}
 			}
-		}
-		//draw the cursor
-		if(paca.cursor.x != -1) {
-			var size = 6;
-			if(paca.cursor.active) {
-				size = 4;
-			}
-			paca.canvas.fillStyle = "black";
-			paca.canvas.fillRect(Math.floor(paca.cursor.x-size/2), Math.floor(paca.cursor.y-size/2), size, size);
 		}
 		//draw the big version
 		paca.resize();
@@ -227,6 +218,14 @@ var paca = {
 			camy = 0;
 		}
 		upscaledCanvas.drawImage(paca.canvas.canvas, camx, camy, paca.camera.width, paca.camera.height, 0, 0, paca.width, paca.height);
-
+		//draw the cursor
+		if(paca.cursor.x != -1) {
+			var size = 6*6;
+			if(paca.cursor.active) {
+				size = 4*6;
+			}
+			upscaledCanvas.fillStyle = "black";
+			upscaledCanvas.fillRect(Math.floor(paca.cursor.x-size/2), Math.floor(paca.cursor.y-size/2), size, size);
+		}
 	}
 };

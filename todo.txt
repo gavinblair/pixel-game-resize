@@ -1,10 +1,9 @@
-mobile cursor - show where clicked until sprite arrives
-phonegap
-look around
 standing animation
 tiptap to run
 cutscene (move camera to look at something, then back)
 dialogue (make it like S&S)
 inventory
+	- draw to upscaledcanvas
 camera effects
 elevation - how?
+phonegap
