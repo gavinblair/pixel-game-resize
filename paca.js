@@ -89,12 +89,17 @@ var paca = {
 				}
 				if(sprite.follow) {
 					//moving?
-					if(sprite.destination.x > (Math.floor(sprite.x)+Math.floor(state.visiblewidth))) {
-						sprite.x += state.speed;
-						sprite.direction = 'right';
-					} else if (sprite.destination.x < (Math.floor(sprite.x)+Math.floor(state.visiblewidth/2.5))) {
-						sprite.x -= state.speed;
-						sprite.direction = 'left';
+					if(sprite.destination.x != -1) {
+						if(sprite.destination.x > (Math.floor(sprite.x)+Math.floor(state.visiblewidth))) {
+							sprite.x += state.speed;
+							sprite.direction = 'right';
+						} else if (sprite.destination.x < (Math.floor(sprite.x)+Math.floor(state.visiblewidth/2.5))) {
+							sprite.x -= state.speed;
+							sprite.direction = 'left';
+						} else {
+							sprite.destination.x = -1;
+							sprite.destination.y = -1;
+						}
 					}
 					//camera
 					paca.camera.x = sprite.x - cartridge.settings.camwidth / 4;
@@ -123,7 +128,7 @@ var paca = {
 					state.width,
 					state.height
 				);
-				if(sprite.destination.x != 0) {
+				if(sprite.destination.x != -1) {
 					paca.canvas.fillRect(sprite.destination.x-1, sprite.destination.y-1, 3, 3);
 				}
 			}

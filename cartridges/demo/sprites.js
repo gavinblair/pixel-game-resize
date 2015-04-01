@@ -6,8 +6,8 @@ cartridge.sprites = {
 		y: 0,
 		direction: 'right',
 		destination: {
-			x: 0,
-			y: 0
+			x: -1,
+			y: -1
 		},
 		follow: true,
 		states: {
