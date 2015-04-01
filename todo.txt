@@ -1,4 +1,5 @@
-cursor
+mobile cursor - show where clicked until sprite arrives
+phonegap
 look around
 standing animation
 tiptap to run
