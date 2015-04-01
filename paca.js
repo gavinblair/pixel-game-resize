@@ -1,6 +1,11 @@
 var paca = {
 	time: 0,
 	canvas: {},
+	cursor: {
+		x: -1,
+		y: -1,
+		active: false
+	},
 	height: 0,
 	width: 0,
 	camera: {
@@ -17,15 +22,15 @@ var paca = {
 			sprites: []
 		}
 		for(var i in cartridge.scenes) {
-			preload['scenes'][i] = new Image()
+			preload['scenes'][i] = new Image();
 			preload['scenes'][i].src = cartridge.scenes[i].image;
 		}
 		for(var i in cartridge.sprites) {
 			for(var j in cartridge.sprites[i].states) {
 				preload['sprites'][i+' '+j] = [];
-				preload['sprites'][i+' '+j]['image'] = new Image()
+				preload['sprites'][i+' '+j]['image'] = new Image();
 				preload['sprites'][i+' '+j]['image'].src = cartridge.sprites[i].states[j].image;
-				preload['sprites'][i+' '+j]['reverse'] = new Image()
+				preload['sprites'][i+' '+j]['reverse'] = new Image();
 				preload['sprites'][i+' '+j]['reverse'].src = cartridge.sprites[i].states[j].reverse;
 			}
 		}
@@ -40,7 +45,7 @@ var paca = {
 		}, 0);
 
 		//fastclick
-    FastClick.attach(document.body);
+   // FastClick.attach(document.body);
 
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
@@ -64,7 +69,13 @@ var paca = {
 		paca.loop();
 		cartridge.scenes[cartridge.currentscene].init();
 
+		$('#resized').mouseup(function(e){
+			paca.cursor.active = false;
+			alert('hi');
+		});
+
 		$('#resized').click(function(e){
+			paca.cursor.active = true;
 			//convert e.clientX
 			var heightratio = $('#resized').height() / cartridge.settings.camheight;
 			//convert e.clientY
@@ -80,6 +91,15 @@ var paca = {
 					};
 				}
 			}
+		});
+		$('#resized').on('touchmove mousemove', function(e){
+			//convert e.clientX
+			var heightratio = $('#resized').height() / cartridge.settings.camheight;
+			//convert e.clientY
+			var widthratio = $('#resized').width() / cartridge.settings.camwidth;
+
+			paca.cursor.x = Math.floor(e.clientX / widthratio + paca.camera.x);
+			paca.cursor.y = Math.floor(e.clientY / heightratio + paca.camera.y);
 		});
 	},
 	loop: function(){
@@ -119,6 +139,7 @@ var paca = {
 						} else {
 							sprite.destination.x = -1;
 							sprite.destination.y = -1;
+							paca.cursor.active = false;
 						}
 					}
 					//camera
@@ -155,10 +176,17 @@ var paca = {
 					state.width,
 					state.height
 				);
-				if(sprite.destination.x != -1) {
-					paca.canvas.fillRect(sprite.destination.x-1, sprite.destination.y-1, 3, 3);
-				}
 			}
+		}
+		//draw the cursor
+		if(paca.cursor.x != -1) {
+			var size = 6;
+			if(paca.cursor.active) {
+				size = 4;
+			}
+			paca.canvas.fillStyle = "black";
+			console.log(paca.cursor);
+			paca.canvas.fillRect(Math.floor(paca.cursor.x-size/2), Math.floor(paca.cursor.y-size/2), size, size);
 		}
 		//draw the big version
 		paca.resize();

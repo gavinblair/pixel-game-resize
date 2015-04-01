@@ -1,0 +1,9 @@
+cursor
+look around
+standing animation
+tiptap to run
+cutscene (move camera to look at something, then back)
+dialogue (make it like S&S)
+inventory
+camera effects
+elevation - how?
