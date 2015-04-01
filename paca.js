@@ -71,7 +71,6 @@ var paca = {
 
 		$('#resized').mouseup(function(e){
 			paca.cursor.active = false;
-			alert('hi');
 		});
 
 		$('#resized').click(function(e){
