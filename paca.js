@@ -14,6 +14,23 @@ var paca = {
 		shakex: 0,
 		shakey: 0
 	},
+	refreshviewport: function(){
+		setTimeout(function(){
+			// Hide the address bar!
+			window.scrollTo(0, 1);
+		}, 0);
+		paca.height = $(window).height();
+		paca.width = $(window).width();
+		$('#game').attr('height', cartridge.settings.sourceheight);
+		$('#game').attr('width', cartridge.settings.sourcewidth);
+		$('#resized').attr('height', paca.height);
+		$('#resized').attr('width', paca.width);
+
+		var ratio = paca.width / paca.height;
+		cartridge.settings.camwidth = cartridge.settings.camheight * ratio;
+		cartridge.settings.camwidth*=cartridge.settings.zoom;
+		cartridge.settings.camheight*=cartridge.settings.zoom;
+	},
 	init: function(){
 
 		//first things first, let's preload all the images
@@ -39,10 +56,6 @@ var paca = {
 		if (window.addEventListener) {
 			window.addEventListener('DOMMouseScroll', function(e){e.preventDefault(); return false;}, false);
 		}
-		setTimeout(function(){
-			// Hide the address bar!
-			window.scrollTo(0, 1);
-		}, 0);
 
 		//fastclick
 		FastClick.attach(document.body);
@@ -57,22 +70,13 @@ var paca = {
 
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
-		paca.height = $(window).height();
-		paca.width = $(window).width();
-		$('#game').attr('height', cartridge.settings.sourceheight);
-		$('#game').attr('width', cartridge.settings.sourcewidth);
-		$('#resized').attr('height', paca.height);
-		$('#resized').attr('width', paca.width);
-
-		var ratio = paca.width / paca.height;
-		cartridge.settings.camwidth = cartridge.settings.camheight * ratio;
-		cartridge.settings.camwidth*=cartridge.settings.zoom;
-		cartridge.settings.camheight*=cartridge.settings.zoom;
 
 		paca.canvas = document.getElementById("game").getContext('2d');
 		paca.canvas.mozImageSmoothingEnabled = false;
 		paca.canvas.msImageSmoothingEnabled = false;
 		paca.canvas.imageSmoothingEnabled = false;
+
+		paca.refreshviewport();
 
 		paca.loop();
 		cartridge.scenes[cartridge.currentscene].init();
@@ -107,6 +111,9 @@ var paca = {
 
 			paca.cursor.x = Math.floor(e.clientX / widthratio + paca.camera.x);
 			paca.cursor.y = Math.floor(e.clientY / heightratio + paca.camera.y);
+		});
+		$('window').resize(function(){
+			paca.refreshviewport();
 		});
 	},
 	loop: function(){
@@ -192,7 +199,6 @@ var paca = {
 				size = 4;
 			}
 			paca.canvas.fillStyle = "black";
-			console.log(paca.cursor);
 			paca.canvas.fillRect(Math.floor(paca.cursor.x-size/2), Math.floor(paca.cursor.y-size/2), size, size);
 		}
 		//draw the big version
