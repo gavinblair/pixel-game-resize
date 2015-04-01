@@ -1,3 +1,4 @@
+fix mobile destination box
 standing animation
 tiptap to run
 cutscene (move camera to look at something, then back)
