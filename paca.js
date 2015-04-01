@@ -99,14 +99,14 @@ var paca = {
 					//camera
 					paca.camera.x = sprite.x - cartridge.settings.camwidth / 4;
 					paca.camera.y = sprite.y - cartridge.settings.camheight / 4;
-					if (paca.camera.x < 200) {
-						paca.camera.x = 200;
+					if (paca.camera.x < 0) {
+						paca.camera.x = 0;
 					}
 					if (paca.camera.x > cartridge.settings.sourcewidth - cartridge.settings.camwidth) {
 						paca.camera.x = cartridge.settings.sourcewidth - cartridge.settings.camwidth;
 					}
-					if (paca.camera.y < 100) {
-						paca.camera.y = 100;
+					if (paca.camera.y < 0) {
+						paca.camera.y = 0;
 					}
 					if (paca.camera.y > cartridge.settings.sourceheight - cartridge.settings.camheight) {
 						paca.camera.y = cartridge.settings.sourceheight - cartridge.settings.camheight;
@@ -137,9 +137,17 @@ var paca = {
 		upscaledCanvas.webkitImageSmoothingEnabled = false;
 		upscaledCanvas.msImageSmoothingEnabled = false;
 		upscaledCanvas.imageSmoothingEnabled = false;
-		paca.camera.shakex = 1.5 * Math.sin(2 * Math.PI*(paca.time / 200));
-		paca.camera.shakey = 1 * Math.sin(2 * Math.PI*(paca.time / 100));
-		upscaledCanvas.drawImage(paca.canvas.canvas, paca.camera.x + paca.camera.shakex, paca.camera.y + paca.camera.shakey, cartridge.settings.camwidth, cartridge.settings.camheight, 0, 0, paca.width, paca.height);
+		paca.camera.shakex = 5 * Math.sin(2 * Math.PI*(paca.time / 1000));
+		paca.camera.shakey = 2 * Math.sin(2 * Math.PI*(paca.time / 700));
+		var camx = paca.camera.x + paca.camera.shakex;
+		var camy = paca.camera.y + paca.camera.shakey;
+		if(camx < 0) {
+			camx = 0;
+		}
+		if(camy < 0) {
+			camy = 0;
+		}
+		upscaledCanvas.drawImage(paca.canvas.canvas, camx, camy, cartridge.settings.camwidth, cartridge.settings.camheight, 0, 0, paca.width, paca.height);
 
 	}
 };
