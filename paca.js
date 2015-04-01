@@ -69,8 +69,10 @@ var paca = {
 		paca.loop();
 		cartridge.scenes[cartridge.currentscene].init();
 
-		$('#resized').mouseup(function(e){
+		$('#resized').touchend(function(e){
 			paca.cursor.active = false;
+			paca.cursor.x = -1;
+			paca.cursor.y = -1;
 		});
 
 		$('#resized').click(function(e){
