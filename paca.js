@@ -1,11 +1,13 @@
-var app = {
+var paca = {
 	time: 0,
 	canvas: {},
 	height: 0,
 	width: 0,
 	camera: {
 		x: 0,
-		y: 0
+		y: 0,
+		shakex: 0,
+		shakey: 0
 	},
 	init: function(){
 		//disable scrolling
@@ -22,24 +24,24 @@ var app = {
 
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
-		app.height = $(window).height();
-		app.width = $(window).width();
+		paca.height = $(window).height();
+		paca.width = $(window).width();
 		$('#game').attr('height', cartridge.settings.sourceheight);
 		$('#game').attr('width', cartridge.settings.sourcewidth);
-		$('#resized').attr('height', app.height);
-		$('#resized').attr('width', app.width);
+		$('#resized').attr('height', paca.height);
+		$('#resized').attr('width', paca.width);
 
-		var ratio = app.width / app.height;
+		var ratio = paca.width / paca.height;
 		cartridge.settings.camwidth = cartridge.settings.camheight * ratio;
 		cartridge.settings.camwidth*=cartridge.settings.zoom;
 		cartridge.settings.camheight*=cartridge.settings.zoom;
 
-		app.canvas = document.getElementById("game").getContext('2d');
-		app.canvas.mozImageSmoothingEnabled = false;
-		app.canvas.msImageSmoothingEnabled = false;
-		app.canvas.imageSmoothingEnabled = false;
+		paca.canvas = document.getElementById("game").getContext('2d');
+		paca.canvas.mozImageSmoothingEnabled = false;
+		paca.canvas.msImageSmoothingEnabled = false;
+		paca.canvas.imageSmoothingEnabled = false;
 
-		app.loop();
+		paca.loop();
 		cartridge.scenes[cartridge.currentscene].init();
 
 		$('#resized').click(function(e){
@@ -53,23 +55,23 @@ var app = {
 				if(cartridge.sprites[i].follow) {
 					var sprite = cartridge.sprites[i];
 					sprite.destination = {
-						x: Math.floor(e.clientX / widthratio + app.camera.x),
-						y: Math.floor(e.clientY / heightratio + app.camera.y)
+						x: Math.floor(e.clientX / widthratio + paca.camera.x),
+						y: Math.floor(e.clientY / heightratio + paca.camera.y)
 					};
 				}
 			}
 		});
 	},
 	loop: function(){
-		requestAnimationFrame(app.loop);
-		app.time++;
-		app.canvas.clearRect(0,0,app.width,app.height);
+		requestAnimationFrame(paca.loop);
+		paca.time++;
+		paca.canvas.clearRect(0,0,paca.width,paca.height);
 		//move sprites, etc.
 		cartridge.scenes[cartridge.currentscene].logic();
 		//draw scene
 		var bg = new Image();
 		bg.src = cartridge.scenes[cartridge.currentscene].image;
-		app.canvas.drawImage(bg, 0, 0);
+		paca.canvas.drawImage(bg, 0, 0);
 		//draw sprites
 		for(var i in cartridge.sprites) {
 			var sprite = cartridge.sprites[i];
@@ -95,22 +97,22 @@ var app = {
 						sprite.direction = 'left';
 					}
 					//camera
-					app.camera.x = sprite.x - cartridge.settings.camwidth / 4;
-					app.camera.y = sprite.y - cartridge.settings.camheight / 4;
-					if (app.camera.x < 0) {
-						app.camera.x = 0;
+					paca.camera.x = sprite.x - cartridge.settings.camwidth / 4;
+					paca.camera.y = sprite.y - cartridge.settings.camheight / 4;
+					if (paca.camera.x < 200) {
+						paca.camera.x = 200;
 					}
-					if (app.camera.x > cartridge.settings.sourcewidth - cartridge.settings.camwidth) {
-						app.camera.x = cartridge.settings.sourcewidth - cartridge.settings.camwidth;
+					if (paca.camera.x > cartridge.settings.sourcewidth - cartridge.settings.camwidth) {
+						paca.camera.x = cartridge.settings.sourcewidth - cartridge.settings.camwidth;
 					}
-					if (app.camera.y < 0) {
-						app.camera.y = 0;
+					if (paca.camera.y < 100) {
+						paca.camera.y = 100;
 					}
-					if (app.camera.y > cartridge.settings.sourceheight - cartridge.settings.camheight) {
-						app.camera.y = cartridge.settings.sourceheight - cartridge.settings.camheight;
+					if (paca.camera.y > cartridge.settings.sourceheight - cartridge.settings.camheight) {
+						paca.camera.y = cartridge.settings.sourceheight - cartridge.settings.camheight;
 					}
 				}
-				app.canvas.drawImage(
+				paca.canvas.drawImage(
 					spriteimg,
 					Math.floor(state.currentframe)*state.width,
 					0,
@@ -122,12 +124,12 @@ var app = {
 					state.height
 				);
 				if(sprite.destination.x != 0) {
-					app.canvas.fillRect(sprite.destination.x-1, sprite.destination.y-1, 3, 3);
+					paca.canvas.fillRect(sprite.destination.x-1, sprite.destination.y-1, 3, 3);
 				}
 			}
 		}
 		//draw the big version
-		app.resize();
+		paca.resize();
 	},
 	resize: function(){
 		var upscaledCanvas = document.getElementById('resized').getContext('2d');
@@ -135,7 +137,9 @@ var app = {
 		upscaledCanvas.webkitImageSmoothingEnabled = false;
 		upscaledCanvas.msImageSmoothingEnabled = false;
 		upscaledCanvas.imageSmoothingEnabled = false;
-		upscaledCanvas.drawImage(app.canvas.canvas, app.camera.x, app.camera.y, cartridge.settings.camwidth, cartridge.settings.camheight, 0, 0, app.width, app.height);
+		paca.camera.shakex = 1.5 * Math.sin(2 * Math.PI*(paca.time / 200));
+		paca.camera.shakey = 1 * Math.sin(2 * Math.PI*(paca.time / 100));
+		upscaledCanvas.drawImage(paca.canvas.canvas, paca.camera.x + paca.camera.shakex, paca.camera.y + paca.camera.shakey, cartridge.settings.camwidth, cartridge.settings.camheight, 0, 0, paca.width, paca.height);
 
 	}
 };
