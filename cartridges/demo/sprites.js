@@ -25,6 +25,7 @@ cartridge.sprites = {
 			},
 			running: {
 				image: 'run.png',
+				reverse: '',
 				width: 48,
 				height: 57,
 				frames: 12,

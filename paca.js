@@ -10,6 +10,26 @@ var paca = {
 		shakey: 0
 	},
 	init: function(){
+
+		//first things first, let's preload all the images
+		var preload = {
+			scenes: [],
+			sprites: []
+		}
+		for(var i in cartridge.scenes) {
+			preload['scenes'][i] = new Image()
+			preload['scenes'][i].src = cartridge.scenes[i].image;
+		}
+		for(var i in cartridge.sprites) {
+			for(var j in cartridge.sprites[i].states) {
+				preload['sprites'][i+' '+j] = [];
+				preload['sprites'][i+' '+j]['image'] = new Image()
+				preload['sprites'][i+' '+j]['image'].src = cartridge.sprites[i].states[j].image;
+				preload['sprites'][i+' '+j]['reverse'] = new Image()
+				preload['sprites'][i+' '+j]['reverse'].src = cartridge.sprites[i].states[j].reverse;
+			}
+		}
+
 		//disable scrolling
 		if (window.addEventListener) {
 			window.addEventListener('DOMMouseScroll', function(e){e.preventDefault(); return false;}, false);
