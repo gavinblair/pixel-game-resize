@@ -102,8 +102,15 @@ var paca = {
 						}
 					}
 					//camera
-					paca.camera.x = sprite.x - cartridge.settings.camwidth / 4;
-					paca.camera.y = sprite.y - cartridge.settings.camheight / 4;
+					//sprite.camoffsetx should be either heading towards state.visiblewidth or 0
+					if(sprite.camoffsetx < state.visiblewidth && sprite.direction == 'left') {
+						sprite.camoffsetx++;
+					}
+					if(sprite.camoffsetx > 0 && sprite.direction == 'right') {
+						sprite.camoffsetx--;
+					}
+					paca.camera.x = (sprite.x - sprite.camoffsetx) - cartridge.settings.camwidth / 4;
+					paca.camera.y = (sprite.y) - cartridge.settings.camheight / 4;
 					if (paca.camera.x < 0) {
 						paca.camera.x = 0;
 					}

@@ -2,6 +2,7 @@ cartridge.sprites = {
 	ruffles: {
 		state: 'walking',
 		visible: false,
+		camoffsetx: 0,
 		x: 0,
 		y: 0,
 		direction: 'right',
