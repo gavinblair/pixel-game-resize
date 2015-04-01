@@ -192,8 +192,8 @@ var paca = {
 					state.height
 				);
 				if(sprite.destination.x != -1) {
-					paca.canvas.fillStyle = "white";
 					var size = 6
+					paca.canvas.fillStyle = "white";
 					paca.canvas.fillRect(Math.floor(sprite.destination.x-size/2), Math.floor(sprite.destination.y-size/2), size, size);
 				}
 			}
