@@ -45,7 +45,15 @@ var paca = {
 		}, 0);
 
 		//fastclick
-    FastClick.attach(document.body);
+		FastClick.attach(document.body);
+
+		//disable bouncy scrolling in safari on ios
+		$(document).bind(
+			'touchmove',
+				function(e) {
+					e.preventDefault();
+				}
+		);
 
 		window.onmousewheel = document.onmousewheel = function(e){e.preventDefault(); return false;};
 		window.onscroll = function(e){e.preventDefault(); return false;};
