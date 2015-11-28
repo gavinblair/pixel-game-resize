@@ -12,6 +12,17 @@ cartridge.sprites = {
 		},
 		follow: true,
 		states: {
+			standing: {
+				image: 'walk.png',
+				reverse: 'walk_left.png',
+				width: 80,
+				height: 60,
+				visiblewidth: 50,
+				frames: 24,
+				rate: 0.41,
+				speed: .65,
+				currentframe: 0,
+			},
 			walking: {
 				image: 'walk.png',
 				reverse: 'walk_left.png',
@@ -25,12 +36,13 @@ cartridge.sprites = {
 			},
 			running: {
 				image: 'run.png',
-				reverse: '',
+				reverse: 'run_left.png',
 				width: 48,
+				visiblewidth: 48,
 				height: 57,
 				frames: 12,
 				rate: 0.35,
-				speed: 1/0.49,
+				speed: 2,
 				currentframe: 0,
 			}
 		},

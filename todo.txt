@@ -1,6 +1,6 @@
-fix mobile destination box
+running left animation
 standing animation
-tiptap to run
+standing left animation
 cutscene (move camera to look at something, then back)
 dialogue (make it like S&S)
 inventory

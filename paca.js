@@ -4,7 +4,8 @@ var paca = {
 	cursor: {
 		x: -1,
 		y: -1,
-		active: false
+		active: false,
+		lastclick: -1
 	},
 	height: 0,
 	width: 0,
@@ -96,6 +97,13 @@ var paca = {
 
 		$('#resized').click(function(e){
 			paca.cursor.active = true;
+
+			var doubleclick = false;
+			if(parseInt(paca.cursor.lastclick) > parseInt(paca.time-20)) {
+				console.log(paca.cursor.lastclick + ' ' + (paca.time+20));
+				doubleclick = true;
+			}
+			paca.cursor.lastclick = paca.time;
 			//convert e.clientX
 			var heightratio = $('#resized').height() / paca.camera.height;
 			//convert e.clientY
@@ -105,6 +113,13 @@ var paca = {
 			for(var i in cartridge.sprites) {
 				if(cartridge.sprites[i].follow) {
 					var sprite = cartridge.sprites[i];
+					if(doubleclick) {
+						doubleclick = false;
+						console.log('dblclick');
+						sprite.state = 'running';
+					} else {
+						sprite.state = 'walking';
+					}
 					sprite.destination = {
 						x: Math.floor(e.clientX / widthratio + paca.camera.x),
 						y: Math.floor(e.clientY / heightratio + paca.camera.y)
@@ -152,6 +167,8 @@ var paca = {
 							sprite.x -= state.speed;
 							sprite.direction = 'left';
 						} else {
+							//standing
+							sprite.state = 'standing';
 							sprite.destination.x = -1;
 							sprite.destination.y = -1;
 							paca.cursor.active = false;
