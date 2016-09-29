@@ -1,0 +1,10 @@
+running left animation
+standing animation
+standing left animation
+cutscene (move camera to look at something, then back)
+dialogue (make it like S&S)
+inventory
+	- draw to upscaledcanvas
+camera effects
+elevation - how?
+phonegap

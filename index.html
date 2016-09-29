@@ -1,44 +1,66 @@
 <!doctype html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+        <script type="text/javascript" src="cordova.js"></script>
+		<script src='fastclick.js'></script>
+		<script src='jquery.js'></script>
+		<script src='cartridges/demo/cartridge.js'></script>
+		<script src='cartridges/demo/sprites.js'></script>
+		<script src='cartridges/demo/scenes.js'></script>
 		<script src='paca.js'></script>
-		<script src='demo.js'></script>
 		<style>
-
+			* {
+				overflow-y: hidden; 
+				-webkit-overflow-scrolling: none;
+			}
 			body{
+				/*
+				*/
+				cursor: none;
+				overflow: hidden;
 				color: #fff;
 				padding: 0;
 				margin: 0;
 				background: #000;
-
-				font-size: 100%;
 				-webkit-touch-callout: none;
 				-webkit-user-select: none;
 				-khtml-user-select: none;
 				-moz-user-select: none;
 				-ms-user-select: none;
 				user-select: none;
+			}
 
-				font-family: monospace;
-			}
-			p {
-				max-width: 500px;
-				margin: 1em auto;
-			}
 			canvas {
-				margin: 1em auto;
-				display: block;
+				background-color: #000;
 				image-rendering: optimizeSpeed;
 				image-rendering: -moz-crisp-edges;
 				image-rendering: -webkit-optimize-contrast;
 				image-rendering: optimize-contrast;
 				-ms-interpolation-mode: nearest-neighbor;
 			}
+			#game {
+				/*
+				*/
+				display: none;
+				position: fixed;
+				top:0;
+				left: 0;
+				opacity: .9;
+				border: 2px solid black;
+				z-index: 2;
+			}
+			#resized {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 1;
+			}
 		</style>
 	</head>
-	<body onload="app.init();">
-		<p>When dealing with pixel art, different pixel sizes and things appearing between pixels is a Bad Thing. The solution is then to code your game at the pixel level and then scale up the game so that everything isn't tiny. There are many ways to do this, and apparently no good cross-platform way. The solution presented here is fast and works in a lot of browsers, but not IE. I am OK with that.</p>
-		<canvas id="game" height="100" width="500"></canvas>
-		<canvas id="resized" height="500" width="800"></canvas>
+	<body onload="paca.init();">
+		<canvas id="game"></canvas>
+		<canvas id="resized"></canvas>
 	</body>
 </html>
